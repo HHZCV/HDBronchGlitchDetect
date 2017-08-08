@@ -12,22 +12,22 @@ using namespace cv;
 using namespace std;
 
 int main(int, char**)
+
 {
 	Mat img1,img2,img1_img2;
-	img1=imread("C:\\Users\\huzhu\\workspace\\HDBronchGlitchDetect\\HDBronchGlitchDetect\\src\\a.tiff");
-	img2=imread("C:\\Users\\huzhu\\workspace\\HDBronchGlitchDetect\\HDBronchGlitchDetect\\src\\b.tiff");
-    absdiff(img1,img2,img1_img2);
-    Mat bgr[3];   //destination array
-    split(img1_img2,bgr);//split source
-    bool eq=(((cv::countNonZero(bgr[0])==0) && (cv::countNonZero(bgr[1])==0))&&(cv::countNonZero(bgr[2])==0));
-    cout<<"eq="<<eq<<endl;
-    multiply(img1_img2,100,img1_img2);
-    namedWindow("img1_img2",1);
-    imshow("img1_img2",img1_img2);
-
-   /*
+		img1=imread("C:\\Users\\hua\\eclipse-workspace\\GlitchDetech\\testPattern.bmp");
+		img2=imread("C:\\Users\\hua\\eclipse-workspace\\GlitchDetech\\video.bmp");
+	    absdiff(img1,img2,img1_img2);
+	    Mat bgr[3];   //destination array
+	    split(img1_img2,bgr);//split source
+	    bool eq=(((cv::countNonZero(bgr[0])==0) && (cv::countNonZero(bgr[1])==0))&&(cv::countNonZero(bgr[2])==0));
+	    cout<<"eq="<<eq<<endl;
+	    multiply(img1_img2,100,img1_img2);
+	    namedWindow("img1_img2",1);
+	    imshow("img1_img2",img1_img2);
+	/*
    // VideoCapture cap(0); // open the default camera
-    VideoCapture cap("C:\\Users\\huzhu\\workspace\\HDBronchGlitchDetect\\HDBronchGlitchDetect\\src\\testPatternVideo.mp4");
+    VideoCapture cap("C:\\Users\\hua\\eclipse-workspace\\GlitchDetech\\src\\testPatternVideo.mp4");
     if(!cap.isOpened())  // check if we succeeded
         return -1;
 
@@ -41,21 +41,27 @@ int main(int, char**)
     struct tm *timeinfo;
     int i=0;
 
-    for(;;)
+    for(int j=0;j<2;j++)
     {
     	Mat frame;
     	double t=(double)cv::getTickCount();
-        if (i<3)
+        if (i==0)
         {
         	cap>>testPattern;
         	imshow("testPattern",testPattern);
+        	imwrite("testPattern.bmp",testPattern);
         }else{
         	cap >> frame; // get a new frame from camera
+        	imwrite("video.bmp",frame);
 
         	absdiff(frame,testPattern,diff);//diff should be all zero if two images are identical
+        	diff=diff*100;
         	imshow("diff",diff);
+        	Mat bgr[3];   //destination array
+        	split(diff,bgr);//split source
+        	bool eq=(((cv::countNonZero(bgr[0])==0) && (cv::countNonZero(bgr[1])==0))&&(cv::countNonZero(bgr[2])==0));
+        	cout<<"eq="<<eq<<endl;
 
-        	bool eq=(cv::countNonZero(bgr[1])==0);
         	 if (~eq)
         	        {
         		        cout<<"glitch detected"<<endl;
@@ -82,7 +88,7 @@ int main(int, char**)
         i++;
     }
     // the camera will be deinitialized automatically in VideoCapture destructor
-    */
-    waitKey();
+*/
+waitKey();
     return 0;
 }
