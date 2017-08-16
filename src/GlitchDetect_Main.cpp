@@ -64,6 +64,9 @@ int main(int, char**)
         if (i==0)
         {
         	cap>>testPattern;
+        	std::string targetName;
+        	targetName=glitchDataFolder+"targetFrame.bmp";
+        	imwrite(targetName,testPattern);
         	//imshow("testPattern",testPattern);
 
         }else{
